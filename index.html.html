@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>SkyCast · Immersive Weather</title>
+  
+  <!-- External Libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  
+  <!-- Our Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <!-- IMMERSIVE BACKGROUND LAYER -->
+  <div class="weather-bg" id="weatherBg">
+    <div class="sun" id="sunVisual">
+      <div class="sun-rays"></div>
+    </div>
+    
+    <div class="cloud-layer" id="cloudLayer">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+      <div class="cloud cloud-4"></div>
+      <div class="cloud cloud-extra cloud-5"></div>
+      <div class="cloud cloud-extra cloud-6"></div>
+    </div>
+
+    <div class="rain-layer" id="rainLayer"></div>
+    <div class="lightning" id="lightningLayer"></div>
+  </div>
+
+  <!-- LISTENING OVERLAY -->
+  <div class="listening-overlay" id="listeningOverlay">
+    <div class="mic-dot"></div>
+    <span>Listening... Speak a city name.</span>
+  </div>
+
+  <main class="weather-app" id="weatherApp">
+    
+    <div class="weather-controls">
+      <button onclick="window.forceWeather('sun')" title="Force Sun">☀️</button>
+      <button onclick="window.forceWeather('cloud')" title="Force Clouds">☁️</button>
+      <button onclick="window.forceWeather('rain')" title="Force Rain">🌧</button>
+    </div>
+
+    <header class="app-header">
+      <div class="brand"><i class="fas fa-cloud-sun"></i><span>SkyCast</span></div>
+      <div class="search-container" id="searchContainer">
+        <form class="search-wrapper" id="searchForm" onsubmit="event.preventDefault(); return false;">
+          <input type="text" id="cityInput" placeholder="Search for a city..." aria-label="City name"
+                 value="London" autocomplete="off">
+          
+          <button type="button" class="gps-btn" id="gpsBtn" title="Use my current location">
+            <i class="fas fa-location-crosshairs"></i>
+          </button>
+
+          <button type="button" class="mic-btn" id="micBtn" title="Search by voice">
+            <i class="fas fa-microphone"></i>
+          </button>
+          
+          <button type="submit" id="searchBtn" aria-label="Search weather"><i class="fas fa-magnifying-glass"></i></button>
+        </form>
+        <div class="suggestions" id="suggestionsList" role="listbox"></div>
+      </div>
+    </header>
+
+    <div class="favorites-bar" id="favoritesBar"></div>
+
+    <section class="current-card">
+      <div class="location-info">
+        <h2>
+          <i class="fas fa-location-dot"></i> 
+          <span id="cityName">London</span>
+          <button class="star-btn" id="favToggleBtn" aria-label="Toggle Favorite"><i class="fas fa-star"></i></button>
+        </h2>
+        <div class="date-time" id="dateTime">Loading...</div>
+      </div>
+      <div class="temp-section">
+        <div class="big-temp"><span id="tempValue">--</span><span class="unit">°C</span></div>
+        <div class="weather-icon-large" id="weatherIconLarge"></div>
+        <div class="condition-text">
+          <div class="desc" id="weatherDesc">--</div>
+          <div class="feels-like" id="feelsLike">Feels like --°C</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="info-grid">
+      <div class="detail-item"><i class="fas fa-droplet"></i><div class="detail-label">Humidity</div><div class="detail-value" id="humidity">--%</div></div>
+      <div class="detail-item"><i class="fas fa-wind"></i><div class="detail-label">Wind</div><div class="detail-value" id="windSpeed">-- km/h</div></div>
+      <div class="detail-item"><i class="fas fa-gauge-high"></i><div class="detail-label">Pressure</div><div class="detail-value" id="pressure">-- hPa</div></div>
+      <div class="detail-item"><i class="fas fa-eye"></i><div class="detail-label">Visibility</div><div class="detail-value" id="visibility">-- km</div></div>
+      
+      <div class="sun-tracker-card">
+        <div class="sun-times">
+          <div class="sun-time-item">
+            <i class="fas fa-sun" style="color: #ffb347;"></i>
+            <span>Sunrise</span>
+            <strong id="sunriseTime">--:--</strong>
+          </div>
+          <div class="sun-time-item">
+            <i class="fas fa-moon" style="color: #aad0ff;"></i>
+            <span>Sunset</span>
+            <strong id="sunsetTime">--:--</strong>
+          </div>
+        </div>
+        <div class="sun-arc-container">
+          <svg class="sun-arc-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+            <path class="arc-path" d="M 0,45 Q 50,0 100,45" />
+            <path class="arc-progress" id="arcProgress" d="M 0,45 Q 50,0 100,45" />
+          </svg>
+          <div class="arc-icon" id="arcIcon"><i class="fas fa-sun"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hourly-section">
+      <div class="hourly-title"><i class="fas fa-clock"></i> 24-Hour Forecast</div>
+      <div class="chart-scroll-container">
+        <div class="hourly-chart" id="hourlyChart"></div>
+      </div>
+    </div>
+
+    <div class="forecast-title"><i class="fas fa-calendar-week"></i> 5‑day forecast</div>
+    <div class="forecast-row" id="forecastContainer"></div>
+
+    <div class="status-message" id="statusMessage">
+      <i class="fas fa-circle-info"></i> <span>Initializing...</span>
+    </div>
+  </main>
+
+  <button class="chat-bubble" id="chatBubble" aria-label="Open weather chat" type="button">
+    <i class="fas fa-comment-dots"></i>
+    <span class="badge" id="chatBadge"></span>
+  </button>
+
+  <section class="chat-panel" id="chatPanel" aria-label="Weather chat assistant">
+    <div class="chat-header">
+      <div class="avatar-bot"><i class="fas fa-robot"></i></div>
+      <div class="info">
+        <span class="name">Weather Bot</span>
+        <span class="status">Online</span>
+      </div>
+      <button class="tts-toggle" id="ttsToggle" title="Toggle Text-to-Speech"><i class="fas fa-volume-mute"></i></button>
+      <button class="close-btn" id="chatClose" aria-label="Close chat" type="button"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-chips" id="chatChips">
+      <button class="chip" type="button" data-q="Will it rain in Nakuru tomorrow?">🌧 Nakuru rain?</button>
+      <button class="chip" type="button" data-q="What's the temperature in Tokyo?">🌡 Tokyo temp</button>
+      <button class="chip" type="button" data-q="Should I bring an umbrella to Paris?">☂ Umbrella in Paris?</button>
+      <button class="chip" type="button" data-q="Weather in New York this weekend">📅 NYC weekend</button>
+    </div>
+    <form class="chat-input-row" id="chatForm" onsubmit="event.preventDefault(); return false;">
+      <input type="text" id="chatInput" placeholder="Ask about the weather…" autocomplete="off">
+      <button type="submit" id="chatSend" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </section>
+
+  <!-- The main entry point of the app -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
