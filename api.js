@@ -21,7 +21,7 @@ export async function fetchWeatherByCoords(lat, lon) {
     `&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,surface_pressure,wind_speed_10m,visibility` +
     `&hourly=temperature_2m,weather_code,precipitation_probability` +
     `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset` +
-    `&timezone=auto&forecast_days=6`;
+    `&timezone=auto&forecast_days=8`;
   const res = await fetch(url);
   if (!res.ok) throw new Error('Weather service unavailable');
   return res.json();
