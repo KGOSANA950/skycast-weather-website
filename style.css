@@ -7,8 +7,10 @@ body {
   background: #0b1a2e; 
 }
 
-/* IMMERSIVE WEATHER BACKGROUND LAYER */
-.weather-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 1.5s ease, background 2s ease; }
+/* =========================================
+   IMMERSIVE WEATHER BACKGROUND LAYER
+   ========================================= */
+.weather-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 1.5s ease, background 2s ease; }
 .weather-bg.active { opacity: 1; }
 .bg-clear-day { background: linear-gradient(145deg, #2b6cb0 0%, #63b3ed 100%); }
 .bg-clear-night { background: linear-gradient(145deg, #0b132b 0%, #1c2541 100%); }
@@ -56,8 +58,26 @@ body {
 .lightning.flash { animation: flash 0.4s ease-out; }
 @keyframes flash { 0% { opacity: 0.8; } 50% { opacity: 0; } 100% { opacity: 0; } }
 
-/* MAIN APP WRAPPER */
-.weather-app { width: 100%; max-width: 1200px; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 2.5rem; padding: 2rem 1.8rem; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); color: #f0f6ff; position: relative; z-index: 10; margin: 2rem auto; transition: transform 0.1s ease-out; }
+/* =========================================
+   MAIN APP WRAPPER
+   ========================================= */
+.weather-app { 
+  width: 100%; 
+  max-width: 1200px; 
+  background: rgba(15, 23, 42, 0.65); 
+  backdrop-filter: blur(16px); 
+  -webkit-backdrop-filter: blur(16px); 
+  border: 1px solid rgba(255, 255, 255, 0.15); 
+  border-radius: 2.5rem; 
+  padding: 2rem 1.8rem; 
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); 
+  color: #f0f6ff; 
+  position: relative; 
+  z-index: 10; 
+  margin: 2rem auto; 
+  transition: transform 0.1s ease-out; 
+  overflow: hidden; /* Crucial fix for layout breaking */
+}
 
 .weather-controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 8px; z-index: 20; }
 .weather-controls button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
@@ -115,8 +135,11 @@ body {
 .temp-section { display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap; }
 .big-temp { font-size: 4.5rem; font-weight: 300; display: flex; align-items: flex-start; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 .big-temp .unit { font-size: 1.8rem; margin-top: 0.8rem; }
+
+/* FIX: Force Lottie Icons to fit their containers */
 .weather-icon-large { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)); }
-.weather-icon-large lottie-player { width: 100%; height: 100%; }
+.weather-icon-large lottie-player { width: 100% !important; height: 100% !important; max-width: 100%; max-height: 100%; }
+
 .condition-text { text-align: right; }
 .condition-text .desc { font-size: 1.4rem; text-transform: capitalize; }
 .condition-text .feels-like { font-size: 0.95rem; opacity: 0.8; margin-top: 0.3rem; }
@@ -154,7 +177,7 @@ body {
 .hour-point { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; cursor: crosshair; padding-bottom: 25px; }
 .hour-label { font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); position: absolute; bottom: 0; font-weight: 500; }
 .hour-icon-container { position: absolute; bottom: 30px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; transition: transform 0.2s; }
-.hour-icon-container lottie-player { width: 100%; height: 100%; }
+.hour-icon-container lottie-player { width: 100% !important; height: 100% !important; }
 .chart-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100px; pointer-events: none; }
 .hour-point:hover .hour-icon-container { transform: scale(1.3) translateY(-2px); }
 .hour-point:hover .hour-temp-bubble { opacity: 1; transform: translateY(0); }
@@ -168,8 +191,12 @@ body {
 .forecast-day { background: rgba(255, 255, 255, 0.05); border-radius: 1.5rem; padding: 1.2rem 1rem; min-width: 100px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.2s, background 0.2s; }
 .forecast-day:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 .day-name { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #ffd966; }
+
+/* FIX: Force Lottie Icons in forecast to fit */
 .day-icon { width: 50px; height: 50px; }
-.day-icon lottie-player { width: 100%; height: 100%; }
+.day-icon lottie-player { width: 100% !important; height: 100% !important; }
+.forecast-icon lottie-player { width: 50px !important; height: 50px !important; } /* Fallback if class missing */
+
 .day-temps { display: flex; gap: 0.5rem; font-size: 0.9rem; }
 .high-temp { font-weight: 600; color: #fff; }
 .low-temp { opacity: 0.6; }
@@ -179,7 +206,7 @@ body {
 .status-message i { font-size: 1rem; }
 
 /* =========================================
-   LISTENING OVERLAY FIX
+   LISTENING OVERLAY & CHAT BUBBLE FIX
    ========================================= */
 .listening-overlay {
     position: fixed;
@@ -187,19 +214,19 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.95);
     padding: 15px 30px;
     border-radius: 50px;
     border: 1px solid #ffd966;
     color: white;
-    display: none; /* Hidden by default */
+    display: none; 
     align-items: center;
     gap: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
 .listening-overlay.active {
-    display: flex; /* Show when active */
+    display: flex; 
 }
 
 .mic-dot {
@@ -208,6 +235,25 @@ body {
     background: #ff4d4d;
     border-radius: 50%;
     animation: pulseMic 1s infinite;
+}
+
+.chat-bubble {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    background: #ffd966;
+    color: #0b1a2e;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* =========================================
@@ -227,5 +273,6 @@ body {
     .condition-text { text-align: center; }
     .info-grid { grid-template-columns: repeat(2, 1fr); }
     .sun-tracker-card { grid-column: span 2; }
+    /* Scale down clouds for mobile */
     .cloud-1, .cloud-2, .cloud-3, .cloud-4 { transform: scale(0.6); }
 }
