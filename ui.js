@@ -199,7 +199,7 @@ export function renderForecast(dailyData) {
   const days = [];
   
   // Changed to 7 to include Saturday and Sunday (index 1 to 6)
-  for (let i = 1; i < Math.min(7, dailyData.time.length); i++) {
+  for (let i = 1; i < Math.min(8, dailyData.time.length); i++) {
     days.push({
       date: new Date(dailyData.time[i]),
       code: dailyData.weather_code[i],
