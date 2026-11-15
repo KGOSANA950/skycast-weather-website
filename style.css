@@ -183,21 +183,70 @@ body {
 .hour-point:hover .hour-temp-bubble { opacity: 1; transform: translateY(0); }
 .hour-temp-bubble { position: absolute; bottom: 75px; background: #ffd966; color: #0b1a2e; font-size: 0.8rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 0.5rem; opacity: 0; transform: translateY(5px); transition: all 0.2s; pointer-events: none; z-index: 5; }
 
-/* Forecast */
+/* =========================================
+   FORECAST (FIXED ALIGNMENT)
+   ========================================= */
 .forecast-title { font-size: 1.1rem; font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: #e2e8f0; }
 .forecast-title i { color: #ffd966; }
-.forecast-row { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem; scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Fixed row height and alignment */
+.forecast-row { 
+    display: flex; 
+    gap: 1rem; 
+    overflow-x: auto; 
+    padding-bottom: 1rem; 
+    align-items: stretch; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
 .forecast-row::-webkit-scrollbar { display: none; }
-.forecast-day { background: rgba(255, 255, 255, 0.05); border-radius: 1.5rem; padding: 1.2rem 1rem; min-width: 100px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.2s, background 0.2s; }
+
+/* Fixed card size and centering */
+.forecast-day { 
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 1.5rem; 
+    padding: 1.2rem 1rem; 
+    min-width: 110px; 
+    height: 160px; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+    border: 1px solid rgba(255, 255, 255, 0.05); 
+    transition: transform 0.2s, background 0.2s; 
+}
 .forecast-day:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-.day-name { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: #ffd966; }
 
-/* FIX: Force Lottie Icons in forecast to fit */
-.day-icon { width: 50px; height: 50px; }
-.day-icon lottie-player { width: 100% !important; height: 100% !important; }
-.forecast-icon lottie-player { width: 50px !important; height: 50px !important; } /* Fallback if class missing */
+/* Day Name */
+.day-name { 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    color: #ffd966; 
+    width: 100%;
+}
 
-.day-temps { display: flex; gap: 0.5rem; font-size: 0.9rem; }
+/* Force Lottie Icons to exact size */
+.forecast-icon, 
+.forecast-day lottie-player,
+.day-icon lottie-player { 
+    width: 50px !important; 
+    height: 50px !important; 
+    max-width: 50px !important; 
+    max-height: 50px !important; 
+    flex-shrink: 0; 
+    margin: 0 auto;
+}
+
+/* Temperatures */
+.day-temps { 
+    display: flex; 
+    justify-content: center; 
+    gap: 0.5rem; 
+    font-size: 0.9rem; 
+    width: 100%;
+}
 .high-temp { font-weight: 600; color: #fff; }
 .low-temp { opacity: 0.6; }
 
