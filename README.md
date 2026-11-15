@@ -3,7 +3,7 @@
 An interactive, fully responsive weather application built with pure Vanilla JavaScript. It features dynamic background animations, voice search, a custom NLP chatbot, and live weather data from the Open-Meteo API.
 
 ## 🚀 Live Demo
-👉 **[View the Live App Here](https://[YOUR-GITHUB-USERNAME].github.io/skycast-weather-website/)**
+👉 **[View the Live App Here](https://kgosana950.github.io/skycast-weather-website/)**
 
 ## ✨ Features
 *   **Immersive Backgrounds:** Real-time animated rain, moving clouds, and a glowing sun based on live weather codes.
