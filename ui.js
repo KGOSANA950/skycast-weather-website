@@ -198,7 +198,8 @@ export function renderForecast(dailyData) {
   const container = document.getElementById('forecastContainer');
   const days = [];
   
-  for (let i = 1; i < Math.min(6, dailyData.time.length); i++) {
+  // Changed to 7 to include Saturday and Sunday (index 1 to 6)
+  for (let i = 1; i < Math.min(7, dailyData.time.length); i++) {
     days.push({
       date: new Date(dailyData.time[i]),
       code: dailyData.weather_code[i],
@@ -207,15 +208,16 @@ export function renderForecast(dailyData) {
     });
   }
 
+  // Everything is now INSIDE the .forecast-day div to ensure perfect alignment
   container.innerHTML = days.map(d => {
     const lottieKey = getLottieKey(d.code, true);
     return `
-      <div class="forecast-card">
-        <div class="forecast-day">${d.date.toLocaleDateString('en-US',{weekday:'short'})}</div>
+      <div class="forecast-day">
+        <div class="day-name">${d.date.toLocaleDateString('en-US',{weekday:'short'})}</div>
         <div class="forecast-icon">
           <lottie-player src="${LOTTIE_ICONS[lottieKey]}" background="transparent" speed="1" loop autoplay></lottie-player>
         </div>
-        <div class="forecast-temp">${Math.round(d.max)}° <span class="low">/ ${Math.round(d.min)}°</span></div>
+        <div class="day-temps">${Math.round(d.max)}° <span class="low-temp">/ ${Math.round(d.min)}°</span></div>
       </div>`;
   }).join('');
 
